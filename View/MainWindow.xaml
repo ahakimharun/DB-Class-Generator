@@ -3,32 +3,69 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DB_Class_Generator"
+        xmlns:local="clr-namespace:DB_Class_Generator" xmlns:viewmodel="clr-namespace:DB_Class_Generator.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <StackPanel>
-            <StackPanel Orientation="Horizontal">
+        Title="Database C# Class Generator" Height="450" Width="1500">
+    <Window.DataContext>
+        <viewmodel:DatabaseInformation />
+    </Window.DataContext>
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+            
+        <StackPanel Grid.RowSpan="2" Grid.Column="0" Margin="10, 10, 0, 0"  Width="250" HorizontalAlignment="Left">
+            <!--<DockPanel >
+                <Label>Database Type:</Label>
+                <ListBox Name = "DatabaseType" ItemsSource = "{Binding Databasetypes}" Height="20" Width="150" HorizontalAlignment="Right"/>
+            </DockPanel>--> 
+            <DockPanel >
                 <Label>Server URL: </Label>
-                <TextBox Name ="ServerURL" Height="20" Width="120"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
+                <TextBox Name = "Serverurl" Text="{Binding ServerURL}" Height="20" Width="150" HorizontalAlignment="Right"/>
+            </DockPanel>
+            <DockPanel >
+                <Label>Database Name:</Label>
+                <TextBox Name = "DatabaseName" Text="{Binding DatabaseName}" Height="20" Width="150" HorizontalAlignment="Right"/>
+            </DockPanel>
+            <DockPanel >
+                <Label>Server Port:</Label>
+                <TextBox Name = "ServerPort" Text="{Binding PortNumber}" Height="20" Width="150" HorizontalAlignment="Right"/>
+            </DockPanel>
+            <DockPanel >
                 <Label>User Name: </Label>
-                <TextBox Name ="UserName" Height="20" Width="120"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
+                <TextBox Name = "UserName" Text="{Binding Username}" Height="20" Width="150" HorizontalAlignment="Right"/>
+            </DockPanel>
+            <DockPanel >
                 <Label>Password:</Label>
-                <PasswordBox Name ="Password" Height="20" Width="120"/>
-            </StackPanel>
+                <PasswordBox Name = "Password" PasswordChanged="Password_PasswordChanged" Height="20" Width="150" HorizontalAlignment="Right"  />
+            </DockPanel>
+            <DockPanel >
+                <Button Name = "ViewTables" Margin="10, 10, 0, 10" Content = "View Tables" Command="{Binding ShowTablesCommand}"  HorizontalAlignment = "Center"/>
+            </DockPanel>
         </StackPanel>
-  <Button Name ="Test" Margin="70,200,626,210" Content="Test Button" />
-        <ListView d:ItemsSource="{d:SampleData ItemCount=5}" Margin="299,10,10,32">
+
+        <ListView Grid.Row="0" Grid.RowSpan="1" Grid.Column="1" Width="250" SelectionMode="Single" SelectedItem="{Binding SelectedTable}" ItemsSource="{Binding DatabaseTables}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn DisplayMemberBinding="{Binding}" Header="List of Tables" Width="200"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
+        <ListView Grid.Row="1" Grid.RowSpan="1" Grid.Column="1" Width="250" SelectionMode="Single" ItemsSource="{Binding TableColumns}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Field}" Header="List of Columns" Width="200"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <TextBox Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Text="{Binding FieldClasses}"></TextBox>
     </Grid>
 </Window>

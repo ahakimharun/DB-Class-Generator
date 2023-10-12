@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DB_Class_Generator.ViewModel;
 
 namespace DB_Class_Generator
 {
@@ -23,6 +24,14 @@ namespace DB_Class_Generator
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Password_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if(this.DataContext != null)
+            {
+                ((dynamic)this.DataContext).SecurePassword = ((PasswordBox)sender).SecurePassword;
+            }
         }
     }
 }
