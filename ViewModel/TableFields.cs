@@ -12,14 +12,14 @@ namespace DB_Class_Generator.ViewModel
         [ObservableProperty]
         private string? _field;
         [ObservableProperty]
-        public string _fieldtype;
+        private string _type;
         [ObservableProperty]
-        public bool _isnull;
+        private string _null;
         [ObservableProperty]
-        public string _key;
+        private string _key;
         [ObservableProperty]
-        public string _default;
+        private string _default;
         [ObservableProperty]
-        public string _extra;
+        private string _extra;
     }
 }

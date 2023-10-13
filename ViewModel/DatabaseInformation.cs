@@ -16,7 +16,7 @@ namespace DB_Class_Generator.ViewModel
     public partial class DatabaseInformation : ObservableObject
     {
         [ObservableProperty]
-        private string databaseName = "Zivy";
+        private string databaseName = "";
         [ObservableProperty]
         private string serverURL = "localhost";
         [ObservableProperty]
@@ -46,6 +46,9 @@ namespace DB_Class_Generator.ViewModel
 
         public ObservableCollection<string> DatabaseTables { get; private set; } = new(); 
         public ObservableCollection<TableFields> TableColumns { get; private set; } = new();
+
+        [ObservableProperty]
+        private string fieldClasses;
         
         [RelayCommand]
         private async Task ShowTables()
@@ -73,12 +76,17 @@ namespace DB_Class_Generator.ViewModel
                 string plaintextpassword = new System.Net.NetworkCredential(string.Empty, SecurePassword).Password;
                 MySqlDatabaseConnection connection = new MySqlDatabaseConnection(ServerURL, PortNumber, DatabaseName, Username, plaintextpassword);
                 TableColumns = new ObservableCollection<TableFields>(await connection.GetTableFields<TableFields>(SelectedTable, DatabaseName));
+                FieldClassBuilder fcb = new FieldClassBuilder(DatabaseName, SelectedTable, TableColumns);
+                FieldClasses = fcb.ClassString.ToString();
                 OnPropertyChanged(nameof(TableColumns));
+                OnPropertyChanged(nameof(FieldClasses));
             }
             catch(Exception ex)
             {
                 MessageBox.Show($"An error occured: {ex.Message}");
             }
         }
+
+
     }
 }
