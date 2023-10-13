@@ -33,7 +33,16 @@ namespace DB_Class_Generator.ViewModel
         {
 
             var nullable = tablefield.Null == "YES" ? "?" : string.Empty;
-            var typesize = new String(tablefield.Type.Where(Char.IsDigit).ToArray());
+            // Match any number within brackets '(' ')'
+            var bracketednumber = Regex.Matches(tablefield.Type, @"\(\d+\)");
+
+            string typesize = "";
+            foreach(var match in bracketednumber)
+            {
+                typesize = Regex.Replace(match.ToString(), @"\D", "");
+            }
+            
+            // var typesize = new String(tablefield.Type.Where(Char.IsDigit).ToArray());
             var cleantypetext = Regex.Replace(tablefield.Type, @"\(\d+\)", "");
             return cleantypetext switch
             {
