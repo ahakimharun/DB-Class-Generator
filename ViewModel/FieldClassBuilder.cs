@@ -19,7 +19,7 @@ namespace DB_Class_Generator.ViewModel
         public FieldClassBuilder(string dbName, string dbTable, IEnumerable<TableFields> tableFields)
         {
             ClassString.AppendLine($"// Generated class for {dbTable} from database: {dbName}");
-            ClassString.AppendLine($"public class {dbTable}\n");
+            ClassString.AppendLine($"public class {dbTable}\n{{\n");
 
             foreach(TableFields tablefield in tableFields)
             {
